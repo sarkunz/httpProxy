@@ -39,10 +39,9 @@ typedef struct{
 } http_request;
 
 http_request* parseReq(char* buffer){
-    printf("PARSING REQ\n");
+    printf("%s\n", "PARSING REQ");
 	http_request* request = malloc(sizeof(http_request));
 	char* buffer_rest = buffer;
-    printf(&buffer);
 	char* line = strtok_r(strdup(buffer), "\r\n", &buffer_rest);
 	char* line_rest = line;
     
@@ -56,7 +55,6 @@ http_request* parseReq(char* buffer){
 	request->version = version;
 
 	http_header* current = NULL;
-    printf("here\n");
 	while (line = strtok_r(NULL, "\r\n", &buffer_rest)){
 		line_rest = line;
 
@@ -252,7 +250,7 @@ char* makeRequest(char* host, char* request){
 }
 
 void *handle_connection( void *fdp){ //STUB. TODO finish
-    printf("MADE THREAD\n");
+    printf("%s\n", "MADE THREAD");
     int fd = *((int *)fdp);
     Pthread_detach(Pthread_self());
     Free(fdp);
@@ -282,12 +280,13 @@ void *handle_connection( void *fdp){ //STUB. TODO finish
     //free buffer
     free(buffer);
     close(fd);
+    free(request);
     return 0;
 }
 
 
 int main(int argc, char** argv){
-    printf("Begin main\n");
+    printf("%s\n", "Begin main");
     int listenfd, *connfdp;
     socklen_t clientlen;
     struct sockaddr_storage clientaddr;
@@ -300,7 +299,7 @@ int main(int argc, char** argv){
     }
 
     //run proxy
-    printf("RUN PROXYHh\n");
+    printf("%s\n", "RUN PROXYHh");
     listenfd = open_listenfd(argv[1]);
     while (1) {
         clientlen=sizeof(struct sockaddr_storage);
@@ -313,11 +312,7 @@ int main(int argc, char** argv){
 }
 
 int at_end( char *pointer ) {
-    printf("END FUNCT\n");
+    printf("%s\n", "END FUNCT");
     return( pointer[0] == '\r' &&
         pointer[3] == '\n' );
-}
-
-void createRequest(char** argv){
-    
 }
